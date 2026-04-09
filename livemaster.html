@@ -366,8 +366,9 @@ function masterThink(cur, d, dd) {
     // ==== 上身中正 ====
     if (Math.abs(d.lean) > 0.006) {
         var dir = d.lean > 0 ? '右' : '左';
+        if (dir === '右') {
         lines.push({ l: 'info', t: '右手在上左手在下，像是白鹤亮翅的动作，注意右手上举时肩不要耸，左手下按时要坐腕' });
-        else lines.push({ l: 'warn', t: '右手在上举，但左手没有配合下按，两手要有对拉劲' });
+        } else lines.push({ l: 'warn', t: '右手在上举，但左手没有配合下按，两手要有对拉劲' });
     }
     if (d.lwy < -0.025) {
         if (cur.rwy > 0.03) lines.push({ l: 'info', t: '左手在上右手在下，注意沉肩坐腕' });
