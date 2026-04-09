@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太极门派</title>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">太极门派</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">主页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai01.html">AI互动</a></li>
+                    <li class="nav-item"><a class="nav-link" href="taiji.html">太极门派</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="history.html">太极历史</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">太极门派</h1>
+
+        <!-- 搜索表单 -->
+        <div class="row mb-4">
+            <div class="col-md-6 offset-md-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="搜索太极拳视频..." id="searchInput">
+                    <button class="btn btn-primary" type="button" id="searchButton">搜索</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 太极拳分类 -->
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">新编28式太极拳</div>
+                    <div class="card-body">
+                       <!--<p>缓慢流畅的动作，适合初学者。</p>-->
+                        <!-- <button class="btn btn-outline-primary" data-video="asset/1.mp4">观看视频</button> -->
+                        <button class="btn btn-outline-primary" data-video="asset/1.mp4" onclick="playVideo(this)">观看视频</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">杨式太极拳</div>
+                    <div class="card-body">
+                        <p>杨式太极拳注重缓慢流畅的动作，适合初学者。</p>
+                        <button class="btn btn-outline-primary" data-video="asset/杨氏太极.mp4" onclick="playVideo(this)">一分钟教你杨氏太极</button>
+                        <!-- <button class="btn btn-outline-primary" data-video="yang-style.mp4">观看视频</button> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">武式太极拳</div>
+                    <div class="card-body">
+                        <p>武式太极拳强调内劲和呼吸的配合。</p>
+                        <button class="btn btn-outline-primary" data-video="asset/武氏太极3.mp4" onclick="playVideo(this)">武氏太极起势</button>
+                    </div>
+                </div>
+            </div>
+             <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">吴式太极拳</div>
+                    <div class="card-body">
+                        <p>吴式太极拳注重缓慢流畅的动作，适合初学者。</p>
+                        <button class="btn btn-outline-primary" data-video="asset/吴氏太极1.mp4" onclick="playVideo(this)">第五代传人李英红</button>
+                    </div>
+                </div>
+            </div>
+             <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">孙式太极拳</div>
+                    <div class="card-body">
+                        <p>孙式太极拳注重缓慢流畅的动作，适合初学者。</p>
+                        <button class="btn btn-outline-primary" data-video="asset/孙氏太极5.mp4" onclick="playVideo(this)">第61-81式</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">陈式太极拳</div>
+                    <div class="card-body">
+                        <p>陈式太极拳是太极拳的原始流派，强调刚柔并济。</p>
+                        <button class="btn btn-outline-primary" data-video="asset/陈氏太极2.mp4" onclick="playVideo(this)">精要18式</button>
+                    </div>
+                </div>
+            </div>
+          <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">张三丰传世太极13式
+                    <div class="card-body">
+                        <p>慢练完整版</p>
+                        <button class="btn btn-outline-primary" data-video="asset/zhangsanfeng13converted.mp4" onclick="playVideo(this)">观看视频</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2026-forever 我的太极世界. All rights reserved.</p>
+    </footer>
+
+
+    <script src="bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+        // 搜索功能
+        document.getElementById('searchButton').addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value;
+            alert(`搜索: ${query}`);
+        });
+
+    </script>
+
+<script>
+function playVideo(btn) {
+  // 获取视频路径
+  const videoPath = btn.getAttribute('data-video');
+  // 创建视频元素（如果不存在）
+  let video = document.getElementById('myVideo');
+  if (!video) {
+    video = document.createElement('video');
+    video.id = 'myVideo';
+    video.controls = true;
+    document.body.appendChild(video);
+  }
+  // 设置视频源并播放
+  video.src = videoPath;
+  video.play();
+}
+</script>
+
+</script>
+</body>
+</html>

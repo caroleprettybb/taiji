@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错误动作分析 - 我的太极世界</title>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">太极世界</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">主页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai01.html">AI互动</a></li>
+                    <li class="nav-item"><a class="nav-link" href="taiji.html">太极门派</a></li>
+                    <li class="nav-item"><a class="nav-link" href="guess.html">太极问答</a></li> 
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">错误分析和正确示范</h1>
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header">错误动作详细分析</div>
+                    <div class="card-body">
+                        <!-- 错误视频回放 -->
+                        <div class="mb-4">
+                            <h5>错误动作回放</h5>
+                            <video controls class="w-100">
+                                <source src="asset/error2.mp4" type="video/mp4">
+                                您的浏览器不支持视频播放。
+                            </video>
+                        </div>
+
+                        <!-- 错误分析 -->
+                        <div class="mb-4">
+                            <h5>错误分析</h5>
+                            <div class="alert alert-danger">
+                                <h6>主要错误：</h6>
+                                <ul>
+                                    <li>把转头当成转腰了</li>
+                                    <li>应该头随身动，不能光转头不转腰</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 正确示范 -->
+                        <div class="mb-4">
+                            <h5>正确动作示范</h5>
+                            <video controls class="w-100">
+                                <source src="asset/right2.mp4" type="video/mp4">
+                                您的浏览器不支持视频播放。
+                            </video>
+                        </div>
+
+                        <!-- 改进建议 -->
+                        <div class="mb-4">
+                            <h5>改进建议</h5>
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul>
+                                        <li>头随身动，跟随脊椎的动作方向</li>
+                                        <li>腿部的重心要放好，腿部才有力，避免夹裆</li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 我的太极世界. 保留所有权利.</p>
+    </footer>
+
+    <script src="bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>

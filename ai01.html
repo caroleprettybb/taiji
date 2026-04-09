@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI互动</title>
+    <!-- 引入 Bootstrap 5 的 CSS (样式) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           这里是你要求的：只添加背景图的 CSS
+           ========================================== */
+        body {
+            /* 把你的背景图设置在 body 上，这样整个网页底层都是这张图 */
+            background-image: url('asset/bg2.jpg');
+            background-size: cover;      /* 强制图片铺满窗口，不会只露出一半 */
+            background-position: center; /* 图片居中对齐 */
+            background-attachment: fixed;/* 滚动页面时，背景图固定不动（高级感） */
+            background-repeat: no-repeat;/* 不让图片平铺重复 */
+        }
+    </style>
+</head>
+<body>
+
+  <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">太极</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">主页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai01.html">AI互动</a></li>
+                    <li class="nav-item"><a class="nav-link" href="taiji.html">太极门派</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="history.html">太极历史</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================== -->
+    <!-- 第一部分：网站名称 (Bootstrap 导航栏) -->
+    <!-- ============================================== -->
+    <nav class="navbar navbar-light bg-light mb-3">
+        <div class="container">
+            <a class="navbar-brand fs-3 fw-bold" href="index.html">AI智能互动模块</a>
+
+        </div>
+    </nav>
+
+        <!-- ============================================== -->
+        <!-- 三个页面的缩略图卡片 (横向排列) -->
+        <!-- ============================================== -->
+        <!-- row: 开启一行 mt-4: 距离上方有一点间距   g-4: 卡片之间的间隙 -->
+        <div class="row mt-4 g-4 justify-content-center">
+
+            <!-- col-md-4: 在电脑上占三分之一（并排3个），在手机上自动占满整行（竖排） -->
+            <div class="col-12 col-md-4">
+                <a href="taijimaster.html" class="text-decoration-none text-dark">
+                    <div class="card h-100">
+                        <!-- 缩略图 -->
+                        <img src="asset/pagecards04.jpg" class="card-img-top" alt="页面1">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">AI智能测试</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <a href="livemaster.html" class="text-decoration-none text-dark">
+                    <div class="card h-100">
+                        <img src="asset/pagecards02.jpg" class="card-img-top" alt="页面2">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">自我对照测试</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <a href="guess.html" class="text-decoration-none text-dark">
+                    <div class="card h-100">
+                        <img src="asset/pagecards03.jpg" class="card-img-top" alt="页面3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">问答判断测试</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 引入 Bootstrap 5 的 JS (用于轮播图的自动播放和左右切换) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+

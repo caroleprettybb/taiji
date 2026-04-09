@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>太极宗师指导</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"
+            crossorigin="anonymous"></script>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0
+            }
+
+            body {
+                background: #1a1410;
+                color: #e8dcc8;
+                font-family: "Noto Serif SC", "STSong", serif;
+                min-height: 100vh
+            }
+
+            .container {
+                max-width: 960px;
+                padding: 20px 16px
+            }
+
+            h1 {
+                color: #c9a84c;
+                font-size: 26px;
+                text-align: center;
+                margin-bottom: 4px;
+                letter-spacing: 4px
+            }
+
+            .sub {
+                text-align: center;
+                color: #7a6c55;
+                font-size: 13px;
+                margin-bottom: 24px
+            }
+
+            .ua {
+                border: 2px dashed #5a4a32;
+                border-radius: 10px;
+                padding: 48px 20px;
+                text-align: center;
+                background: #231e17;
+                cursor: pointer;
+                transition: .3s
+            }
+
+            .ua:hover {
+                border-color: #c9a84c;
+                background: #2a2318
+            }
+
+            .ua p:first-child {
+                font-size: 36px
+            }
+
+            .ua p:last-child {
+                color: #7a6c55;
+                margin-top: 8px;
+                font-size: 14px
+            }
+
+            .vw {
+                position: relative;
+                width: 100%;
+                background: #000;
+                border-radius: 8px;
+                overflow: hidden
+            }
+
+            #canvas {
+                display: block;
+                width: 100%
+            }
+
+            .pb {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 52px;
+                color: #c9a84c;
+                text-shadow: 0 0 40px rgba(0, 0, 0, .8);
+                cursor: pointer;
+                z-index: 10;
+                transition: .2s
+            }
+
+            .pb:hover {
+                transform: translate(-50%, -50%) scale(1.1)
+            }
+
+            .panel {
+                background: #231e17;
+                border: 1px solid #3a3020;
+                border-radius: 10px;
+                padding: 20px;
+                margin-top: 16px
+            }
+
+            .btn-reset {
+                width: 100%;
+                padding: 10px;
+                background: #3a3020;
+                color: #c9a84c;
+                border: 1px solid #5a4a32;
+                border-radius: 8px;
+                font-size: 14px;
+                cursor: pointer;
+                margin-top: 12px;
+                transition: .2s
+            }
+
+            .btn-reset:hover {
+                background: #4a3f2a
+            }
+
+            .master-say {
+                font-size: 15px;
+                line-height: 2.1;
+                color: #e8dcc8
+            }
+
+            .master-say .line {
+                margin-bottom: 6px;
+                padding-left: 16px;
+                position: relative
+            }
+
+            .master-say .line::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 10px;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%
+            }
+
+            .master-say .line.bad::before {
+                background: #dc2626
+            }
+
+            .master-say .line.warn::before {
+                background: #d97706
+            }
+
+            .master-say .line.good::before {
+                background: #16a34a
+            }
+
+            .master-say .line.info::before {
+                background: #6b7280
+            }
+
+            .master-say .line.bad {
+                color: #fca5a5
+            }
+
+            .master-say .line.warn {
+                color: #fcd34d
+            }
+
+            .master-say .line.good {
+                color: #86efac
+            }
+
+            .master-say .line.info {
+                color: #9ca3af
+            }
+
+            .master-label {
+                color: #c9a84c;
+                font-size: 14px;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+                border-bottom: 1px solid #3a3020;
+                letter-spacing: 2px
+            }
+
+            .log-area {
+                max-height: 500px;
+                overflow-y: auto;
+                padding-right: 8px
+            }
+
+            .log-area::-webkit-scrollbar {
+                width: 3px
+            }
+
+            .log-area::-webkit-scrollbar-thumb {
+                background: #5a4a32;
+                border-radius: 2px
+            }
+
+            .log-block {
+                margin-bottom: 20px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid #2a2318
+            }
+
+            .log-block:last-child {
+                border-bottom: none
+            }
+
+            .log-time {
+                font-size: 11px;
+                color: #5a4a32;
+                margin-bottom: 8px
+            }
+
+            .no-data {
+                color: #5a4a32;
+                text-align: center;
+                padding: 40px 0;
+                font-size: 14px
+            }
+        </style>
+    </head>
+
+
+    <body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">太极</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">主页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai01.html">AI互动</a></li>
+                    <li class="nav-item"><a class="nav-link" href="taiji.html">太极门派</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="history.html">太极历史</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <div class="container">
+            <h1>太极宗师</h1>
+            <p class="sub">不花一分钱，宗师看你打拳，实时纠正</p>
+            <div class="ua" onclick="document.getElementById('fileInput').click()">
+                <p>📁</p>
+                <p>上传你的太极视频</p>
+            </div>
+            <input type="file" id="fileInput" accept="video/*" style="display:none" onchange="handleUpload(event)">
+            <div id="resultBox" style="display:none;margin-top:20px">
+                <div class="vw" onclick="startPlaying()">
+                    <video id="video" style="display:none" playsinline></video>
+                    <canvas id="canvas"></canvas>
+                    <div class="pb" id="playBtn">▶</div>
+                </div>
+                <button class="btn-reset" id="reuploadBtn" style="display:none" onclick="resetAll()">重新上传</button>
+                <div class="panel" id="masterPanel" style="display:none">
+                    <div class="master-label">宗师说：</div>
+                    <div class="log-area" id="masterLog">
+                        <div class="no-data">等待分析...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+var pose = new Pose({
+    locateFile: function(f){return 'https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/'+f}
+});
+pose.setOptions({modelComplexity:1,smoothLandmarks:true,minDetectionConfidence:0.5,minTrackingConfidence:0.5});
+var isAnalyzing = false;
+var startTime = 0;
+
+// ===== 宗师的大脑：历史帧记忆 + 变化趋势推理 =====
+var prev = null;      // 上一帧
+var pprev = null;     // 上上帧
+var lastLogTime = 0;  // 上次输出时间
+var logBlocks = [];   // 历史记录
+
+function ang(a,b,c){
+    var r=Math.atan2(c.y-b.y,c.x-b.x)-Math.atan2(a.y-b.y,a.x-b.x);
+    var d=Math.abs(r*180/Math.PI);return d>180?360-d:d;
+}
+
+function snap(lm){
+    return {
+        le:ang(lm[11],lm[13],lm[15]), re:ang(lm[12],lm[14],lm[16]),
+        ls:ang(lm[13],lm[11],lm[23]), rs:ang(lm[14],lm[12],lm[24]),
+        lk:ang(lm[23],lm[25],lm[27]), rk:ang(lm[24],lm[26],lm[28]),
+        lh:ang(lm[11],lm[23],lm[25]), rh:ang(lm[12],lm[24],lm[26]),
+        lwy:lm[15].y-lm[11].y, rwy:lm[16].y-lm[12].y,
+        lwx:lm[15].x-lm[11].x, rwx:lm[12].x-lm[16].x,
+        led:lm[13].y-lm[11].y, red:lm[14].y-lm[12].y,
+        nose:lm[0].x-(lm[11].x+lm[12].x)/2,
+        lean:(lm[11].x+lm[12].x)/2-(lm[23].x+lm[24].x)/2,
+        sw:Math.abs(lm[11].x-lm[12].x),
+        hw:Math.abs(lm[23].x-lm[24].x)
+    };
+}
+
+function delta(a,b){ var d={}; for(var k in a) d[k]=a[k]-b[k]; return d; }
+
+// ===== 宗师的完整推理链 =====
+// 输入：当前帧快照 + 这一帧的变化量 + 上一帧的变化量（加速度）
+// 输出：一条或多条要领指导
+function masterThink(cur, d, dd) {
+    var lines = [];
+
+    // ==== 上肢：沉肩坠肘 ====
+    // 推理：肘角变小=屈臂，此时肘应下沉；肘角变大=伸臂，肘不应上抬
+    if(d.le < -4 && d.led >= 0)
+        lines.push({l:'warn',t:'左手屈臂时肘没有沉下去，沉肩坠肘不是光弯胳膊，肘要往下走'});
+    else if(d.le > 4 && d.red > 0.01)
+        lines.push({l:'warn',t:'左手伸臂时肘跟着往上跑了，肩在耸，松开它'});
+    else if(d.led > 0.015 && Math.abs(d.le) < 4)
+        lines.push({l:'bad',t:'左手肘在往上冒，耸肩了，马上松下来'});
+    else if(d.led < -0.015 && Math.abs(d.le) < 4)
+        lines.push({l:'good',t:'左手肩在松沉，肘在下走，这个感觉对了'});
+
+    if(d.re < -4 && d.red >= 0)
+        lines.push({l:'warn',t:'右手屈臂肘没沉，坠肘是肘尖朝下，不是朝后朝外'});
+    else if(d.re > 4 && d.red > 0.01)
+        lines.push({l:'warn',t:'右手伸臂肘上抬了，肩紧了'});
+    else if(d.red > 0.015 && Math.abs(d.re) < 4)
+        lines.push({l:'bad',t:'右手肘在往上冒，耸肩，松'});
+    else if(d.red < -0.015 && Math.abs(d.re) < 4)
+        lines.push({l:'good',t:'右手肩松肘沉，保持'});
+
+    // ==== 虚领顶劲 ====
+    if(Math.abs(d.nose) > 0.004){
+        if(d.nose > 0) lines.push({l:'warn',t:'头跟着身体歪了，虚领顶劲是头顶百会穴往上拎，不管身体怎么转头要正'});
+        else lines.push({l:'good',t:'头在回正，百会穴上领的感觉有了'});
+    }
+
+    // ==== 含胸拔背 ====
+    // 推理：肩宽突然变窄=含胸过度；变宽=可能挺胸或耸肩
+    if(d.sw < -0.008) lines.push({l:'warn',t:'两肩在往里收，含胸不是驼背，胸要含住但背要拔圆'});
+    if(d.sw > 0.012) lines.push({l:'warn',t:'两肩在往外撑，可能挺胸了，含住它'});
+
+    // ==== 松腰敛臀 ====
+    // 推理：胯宽相对肩宽突然变大=臀后翘
+    var curRatio = cur.hw / Math.max(cur.sw, 0.01);
+    if(d.hw > 0.008 && d.sw < 0.003)
+        lines.push({l:'bad',t:'胯在往外撑，臀部后翘了，敛臀——尾闾往下扣，不是往后翘'});
+
+    // ==== 屈膝松胯 ====
+    // 推理：膝角变大=腿在伸直，太极任何时候腿都不能完全伸直
+    if(d.lk > 6 && cur.lk > 160)
+        lines.push({l:'bad',t:'左腿在伸直（'+cur.lk.toFixed(0)+'°），太极没有直腿的时候，膝盖永远微曲'});
+    else if(d.lk > 4)
+        lines.push({l:'warn',t:'左膝在变直，注意保持曲度'});
+    else if(d.lk < -6 && cur.lk < 110)
+        lines.push({l:'bad',t:'左膝弯曲过度（'+cur.lk.toFixed(0)+'°），不要跪膝，膝盖不能超过脚尖'});
+    else if(d.lk < -4 && cur.lk >= 110 && cur.lk <= 155)
+        lines.push({l:'good',t:'左腿在下蹲，屈膝松胯，注意膝盖方向对准脚尖'});
+
+    if(d.rk > 6 && cur.rk > 160)
+        lines.push({l:'bad',t:'右腿伸直了（'+cur.rk.toFixed(0)+'°），不能直腿'});
+    else if(d.rk > 4)
+        lines.push({l:'warn',t:'右膝在变直'});
+    else if(d.rk < -6 && cur.rk < 110)
+        lines.push({l:'bad',t:'右膝弯太多了（'+cur.rk.toFixed(0)+'°），别跪膝'});
+    else if(d.rk < -4 && cur.rk >= 110 && cur.rk <= 155)
+        lines.push({l:'good',t:'右腿下蹲中，松胯到位'});
+
+    // ==== 虚实转换 ====
+    // 推理：左右膝角差值在变化=重心在转移
+    var curDiff = cur.lk - cur.rk;
+    var prevDiff = (cur.lk - d.lk) - (cur.rk - d.rk);
+    var diffChange = curDiff - prevDiff;
+    if(Math.abs(diffChange) > 6){
+        var to = diffChange > 0 ? '左' : '右';
+        lines.push({l:'info',t:'重心正在向'+to+'腿转换——实腿要稳，虚腿要灵，虚腿不能死死踩在地上'});
+    }
+
+    // ==== 上身中正 ====
+    if(Math.abs(d.lean) > 0.006){
+        var dir = d.lean > 0 ? '右' : '左';
+        lines.push({l:'warn',t:'上身向'+dir+'倾斜了，太极要求中正不偏，不管弓步虚步上身都要正直'});
+    }
+
+    // ==== 手臂运动轨迹判断 ====
+    // 推理：手腕大幅上移=可能在亮翅/举手，此时检查另一只手是否在下按
+    if(d.rwy < -0.025){
+        if(cur.lwy > 0.03) lines.push({l:'info',t:'右手在上左手在下，像是白鹤亮翅的动作，注意右手上举时肩不要耸，左手下按时要坐腕'});
+        else lines.push({l:'warn',t:'右手在上举，但左手没有配合下按，两手要有对拉劲'});
+    }
+    if(d.lwy < -0.025){
+        if(cur.rwy > 0.03) lines.push({l:'info',t:'左手在上右手在下，注意沉肩坐腕'});
+        else lines.push({l:'warn',t:'左手上举时右手没有配合，两手要有呼应'});
+    }
+
+    // 推理：双手同时前伸=可能是揽雀尾/按式
+    if(d.lwx > 0.015 && d.rwx > 0.015)
+        lines.push({l:'info',t:'双手同时前推，注意沉肩坠肘不能架起来，力从脚起传到腰再传到手，不要光用手推'});
+
+    // 推理：一手前推一手在后=搂膝拗步
+    if((d.lwx > 0.02 && d.rwx < -0.01) || (d.rwx > 0.02 && d.lwx < -0.01))
+        lines.push({l:'info',t:'一手前一手后，注意后手不要夹在肋上，要拉开，前手肘不能伸直'});
+
+    // 推理：双手高度接近且在移动=云手
+    if(Math.abs(cur.lwy - cur.rwy) < 0.05 && (Math.abs(d.lwx) > 0.01 || Math.abs(d.rwx) > 0.01)){
+        if(cur.lk < 165 && cur.rk < 165)
+            lines.push({l:'info',t:'两手在水平方向移动，像云手，注意腰为主宰手随腰转，不要光动手不转腰'});
+    }
+
+    // ==== 坐腕沉指 ====
+    // 推理：手腕角度（手腕-中指根-中指尖）太直=没坐腕
+    var lwa = 0, rwa = 0; // 需要额外算
+    // 简化：看手腕y和肘y的关系，如果手腕比肘高很多但手指没信息就跳过
+
+    // ==== 如果没有任何明显变化=静止状态，做静态评估 ====
+    if(lines.length === 0 && Math.abs(d.le) < 2 && Math.abs(d.re) < 2 && Math.abs(d.lk) < 2 && Math.abs(d.rk) < 2){
+        // 静态时的评估
+        if(cur.le < 100) lines.push({l:'warn',t:'左手肘夹得太紧（'+cur.le.toFixed(0)+'°），打开些，手臂要有圆撑感'});
+        if(cur.re < 100) lines.push({l:'warn',t:'右手肘夹得太紧（'+cur.re.toFixed(0)+'°），圆裆圆臂'});
+        if(cur.lk > 168 && cur.rk > 168) lines.push({l:'bad',t:'两腿都太直了，太极没有站直的时候，微微屈膝重心降低'});
+        if(cur.lk < 110) lines.push({l:'warn',t:'左膝弯曲过度（'+cur.lk.toFixed(0)+'°），检查是否跪膝'});
+        if(cur.rk < 110) lines.push({l:'warn',t:'右膝弯曲过度（'+cur.rk.toFixed(0)+'°），检查是否跪膝'});
+        if(cur.le > 100 && cur.re > 100 && cur.lk < 165 && cur.rk < 165 && cur.led > 0 && cur.red > 0)
+            lines.push({l:'good',t:'这个姿态不错，肩松肘沉，屈膝松胯，保持住'});
+        if(lines.length === 0)
+            lines.push({l:'info',t:'保持当前姿态，注意呼吸自然，气沉丹田'});
+    }
+
+    return lines;
+}
+
+// ===== UI =====
+function handleUpload(e){
+    var f=e.target.files[0];if(!f)return;
+    document.getElementById('video').src=URL.createObjectURL(f);
+    document.getElementById('resultBox').style.display='block';
+    document.getElementById('playBtn').style.display='block';
+    document.getElementById('reuploadBtn').style.display='block';
+    document.getElementById('masterPanel').style.display='block';
+    logBlocks=[];prev=null;pprev=null;lastLogTime=0;
+    document.getElementById('masterLog').innerHTML='<div class="no-data">等待分析...</div>';
+}
+function resetAll(){
+    isAnalyzing=false;prev=null;pprev=null;lastLogTime=0;logBlocks=[];
+    var v=document.getElementById('video');v.pause();v.removeAttribute('src');
+    document.getElementById('canvas').getContext('2d').clearRect(0,0,9999,9999);
+    document.getElementById('playBtn').style.display='block';
+    document.getElementById('playBtn').textContent='▶';
+    document.getElementById('masterLog').innerHTML='<div class="no-data">等待分析...</div>';
+    document.getElementById('fileInput').value='';
+    document.getElementById('fileInput').click();
+}
+function startPlaying(){
+    var v=document.getElementById('video'),b=document.getElementById('playBtn');
+    if(isAnalyzing){v.pause();isAnalyzing=false;b.textContent='▶';return;}
+    if(v.videoWidth&&v.videoHeight){var c=document.getElementById('canvas');c.width=v.videoWidth;c.height=v.videoHeight;}
+    startTime=Date.now();
+    v.play().then(function(){b.style.display='none';isAnalyzing=true;runLoop();});
+}
+function runLoop(){
+    if(!isAnalyzing)return;
+    var v=document.getElementById('video');
+    if(v.paused||v.ended){isAnalyzing=false;document.getElementById('playBtn').style.display='block';return;}
+    pose.send({image:v}).then(function(){requestAnimationFrame(runLoop);});
+}
+
+pose.onResults(function(res){
+    var c=document.getElementById('canvas'),ctx=c.getContext('2d'),v=document.getElementById('video');
+    ctx.drawImage(v,0,0,c.width,c.height);
+    if(!res.poseLandmarks)return;
+    var lm=res.poseLandmarks;
+
+    // 画骨骼
+    var conn=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28]];
+    ctx.strokeStyle='rgba(201,168,76,0.5)';ctx.lineWidth=3;
+    conn.forEach(function(p){ctx.beginPath();ctx.moveTo(lm[p[0]].x*c.width,lm[p[0]].y*c.height);ctx.lineTo(lm[p[1]].x*c.width,lm[p[1]].y*c.height);ctx.stroke();});
+    lm.forEach(function(p){ctx.beginPath();ctx.arc(p.x*c.width,p.y*c.height,4,0,Math.PI*2);ctx.fillStyle='rgba(201,168,76,0.8)';ctx.fill();});
+
+    // 宗师思考
+    var cur=snap(lm);
+    if(prev && pprev){
+        var d=delta(cur,prev);
+        var dd=delta(prev,pprev);
+        var now=Date.now();
+        // 每1.5秒输出一次，避免刷屏
+        if(now - lastLogTime > 1500){
+            var lines=masterThink(cur,d,dd);
+            if(lines.length > 0){
+                lastLogTime=now;
+                var sec=((now-startTime)/1000).toFixed(1);
+                logBlocks.push({time:sec,lines:lines});
+                // 最多保留20条
+                if(logBlocks.length>20) logBlocks.shift();
+                renderLog();
+            }
+        }
+    }
+    pprev=prev;
+    prev=cur;
+});
+
+function renderLog(){
+    var el=document.getElementById('masterLog');
+    var h='';
+    for(var i=logBlocks.length-1;i>=0;i--){
+        var block=logBlocks[i];
+        h+='<div class="log-block">';
+        h+='<div class="log-time">第 '+block.time+' 秒</div>';
+        h+='<div class="master-say">';
+        block.lines.forEach(function(line){
+            h+='<div class="line '+line.l+'">'+line.t+'</div>';
+        });
+        h+='</div></div>';
+    }
+    el.innerHTML=h;
+}
+        </script>
+    </body>
+
+</html>

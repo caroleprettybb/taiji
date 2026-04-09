@@ -1,0 +1,209 @@
+/* 基础样式 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #277ed5;
+    margin:1;
+    padding:0;
+}
+
+/* 图片居中样式 - 添加在这里 */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 导航栏样式 */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+     color: #277ed5
+
+}
+.navbar-brand {
+    color:  #103699 !important;
+    font-size: 2.2em !important;
+}
+/* 卡片样式 */
+.card {
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 标题样式 */
+h1, h2, h3, h4, h5, h6 {
+    color: #277ed5;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+h1 {
+    font-size: 2em; /* 增大标题字体 */
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+h2 {
+    font-size: 1.8em; /* 增大二级标题 */
+    margin-block-start: 0.6em;
+    margin-block-end: 0.6em;
+}
+
+h3 {
+    font-size: 1.8em; /* 增大三级标题 */
+    margin-block-start: 0.7em;
+    margin-block-end: 0.7em;
+}
+
+h4 {
+    font-size: 1.8em; /* 增大四级标题 */
+    margin-block-start: 0.8em;
+    margin-block-end: 0.8em;
+}
+
+h5 {
+    font-size: 1.5em; /* 增大五级标题 */
+    margin-block-start: 0.9em;
+    margin-block-end: 0.9em;
+}
+
+h6 {
+    font-size: 1.8em; /* 增大六级标题 */
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
+p, label, .form-label, .form-check-label {
+    font-size: 1.1em; /* 增大普通文本 */
+    line-height: 1.6;
+}
+/* 段落样式 */
+p {
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+/* 按钮样式 */
+.btn {
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 1.1em; /* 增大按钮文字 */
+    padding: 0.55rem 1.5rem; /* 增大按钮内边距，让按钮更大 */
+    min-width: 120px; /* 设置最小宽度 */
+    color: #551363
+}
+
+.btn:hover {
+    background-color: #3498db;
+    color: white;
+}
+
+/* 搜索框样式 - 增大搜索框 */
+.form-control {
+    font-size: 1em; /* 增大输入框文字 */
+    padding: 0.75rem 1rem; /* 增大内边距 */
+    min-width: 120px; /* 设置最小宽度 */
+    height: 35px; /* 增加高度 */
+}
+
+/* 或者针对特定搜索框 */
+#search-input {
+    font-size: 1.1em;
+    padding: 0.75rem 1rem;
+    min-width: 250px;
+    height: 45px;
+}
+
+select {
+    font-size: 1em;
+    color: #551363
+}
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+}
+/* 卡片样式调整 */
+.card {
+  margin-bottom: 0px;
+  padding: 1rem; /* 减少内边距 */
+  border: none;  /* 如果不需要边框 */
+
+}
+
+.card-title {
+  margin: 0rem 0; /* 调整标题间距 */
+  font-size: 2rem;
+  text-align: center;
+}
+
+.card .card-header {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+-->
+/* 自定义动画 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+/* 背景渐变 */
+.bg-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* 文字阴影 */
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* 边框圆角 */
+.rounded-custom {
+    border-radius: 15px;
+}
+
+/* 悬停效果 */
+.hover-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hover-effect:hover::after {
+    opacity: 1;
+}
