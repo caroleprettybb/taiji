@@ -116,6 +116,12 @@
             const videoSelector = document.getElementById('videoSelector');
             const errorVideo = document.getElementById('errorVideo');
 
+            // 初始加载第一个视频
+            const initialVideo = videoData[videoSelector.value];
+            if (initialVideo) {
+                errorVideo.querySelector('source').src = initialVideo.videoSrc;
+                errorVideo.load();
+            }
             // 视频选择器变化事件
             videoSelector.addEventListener('change', function() {
                 const selectedVideo = videoData[this.value];
