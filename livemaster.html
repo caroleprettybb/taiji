@@ -302,10 +302,109 @@ function masterThink(cur, d, dd) {
     else if(d.le > 4 && d.red > 0.01)
         lines.push({l:'warn',t:'左手伸臂时肘跟着往上跑了，肩在耸，松开它'});
     // ... (其他所有条件判断) ...
+    else if (d.led > 0.015 && Math.abs(d.le) < 4)
+        lines.push({ l: 'bad', t: '左手肘在往上冒，耸肩了，马上松下来' });
+    else if (d.led < -0.015 && Math.abs(d.le) < 4)
+        lines.push({ l: 'good', t: '左手肩在松沉，肘在下走，这个感觉对了' });
+
+    if (d.re < -4 && d.red >= 0)
+        lines.push({ l: 'warn', t: '右手屈臂肘没沉，坠肘是肘尖朝下，不是朝后朝外' });
+    else if (d.re > 4 && d.red > 0.01)
+        lines.push({ l: 'warn', t: '右手伸臂肘上抬了，肩紧了' });
+    else if (d.red > 0.015 && Math.abs(d.re) < 4)
+        lines.push({ l: 'bad', t: '右手肘在往上冒，耸肩，松' });
+    else if (d.red < -0.015 && Math.abs(d.re) < 4)
+        lines.push({ l: 'good', t: '右手肩松肘沉，保持' });
+
+    // ==== 虚领顶劲 ====
+    if (Math.abs(d.nose) > 0.004) {
+        if (d.nose > 0) lines.push({ l: 'warn', t: '头跟着身体歪了，虚领顶劲是头顶百会穴往上拎，不管身体怎么转头要正' });
+        else lines.push({ l: 'good', t: '头在回正，百会穴上领的感觉有了' });
+    }
+
+    // ==== 含胸拔背 ====
+    // 推理：肩宽突然变窄=含胸过度；变宽=可能挺胸或耸肩
+    if (d.sw < -0.008) lines.push({ l: 'warn', t: '两肩在往里收，含胸不是驼背，胸要含住但背要拔圆' });
+    if (d.sw > 0.012) lines.push({ l: 'warn', t: '两肩在往外撑，可能挺胸了，含住它' });
+
+    // ==== 松腰敛臀 ====
+    // 推理：胯宽相对肩宽突然变大=臀后翘
+    var curRatio = cur.hw / Math.max(cur.sw, 0.01);
+    if (d.hw > 0.008 && d.sw < 0.003)
+        lines.push({ l: 'bad', t: '胯在往外撑，臀部后翘了，敛臀——尾闾往下扣，不是往后翘' });
+
+    // ==== 屈膝松胯 ====
+    // 推理：膝角变大=腿在伸直，太极任何时候腿都不能完全伸直
+    if (d.lk > 6 && cur.lk > 160)
+        lines.push({ l: 'bad', t: '左腿在伸直（' + cur.lk.toFixed(0) + '°），太极没有直腿的时候，膝盖永远微曲' });
+    else if (d.lk > 4)
+        lines.push({ l: 'warn', t: '左膝在变直，注意保持曲度' });
+    else if (d.lk < -6 && cur.lk < 110)
+        lines.push({ l: 'bad', t: '左膝弯曲过度（' + cur.lk.toFixed(0) + '°），不要跪膝，膝盖不能超过脚尖' });
+    else if (d.lk < -4 && cur.lk >= 110 && cur.lk <= 155)
+        lines.push({ l: 'good', t: '左腿在下蹲，屈膝松胯，注意膝盖方向对准脚尖' });
+
+    if (d.rk > 6 && cur.rk > 160)
+        lines.push({ l: 'bad', t: '右腿伸直了（' + cur.rk.toFixed(0) + '°），不能直腿' });
+    else if (d.rk > 4)
+        lines.push({ l: 'warn', t: '右膝在变直' });
+    else if (d.rk < -6 && cur.rk < 110)
+        lines.push({ l: 'bad', t: '右膝弯太多了（' + cur.rk.toFixed(0) + '°），别跪膝' });
+    else if (d.rk < -4 && cur.rk >= 110 && cur.rk <= 155)
+        lines.push({ l: 'good', t: '右腿下蹲中，松胯到位' });
+
+    // ==== 虚实转换 ====
+    // 推理：左右膝角差值在变化=重心在转移
+    var curDiff = cur.lk - cur.rk;
+    var prevDiff = (cur.lk - d.lk) - (cur.rk - d.rk);
+    var diffChange = curDiff - prevDiff;
+    if (Math.abs(diffChange) > 6) {
+        var to = diffChange > 0 ? '左' : '右';
+        lines.push({ l: 'info', t: '重心正在向' + to + '腿转换——实腿要稳，虚腿要灵，虚腿不能死死踩在地上' });
+    }
+
+    // ==== 上身中正 ====
+    if (Math.abs(d.lean) > 0.006) {
+        var dir = d.lean > 0 ? '右' : '左';
+        lines.push({ l: 'info', t: '右手在上左手在下，像是白鹤亮翅的动作，注意右手上举时肩不要耸，左手下按时要坐腕' });
+        else lines.push({ l: 'warn', t: '右手在上举，但左手没有配合下按，两手要有对拉劲' });
+    }
+    if (d.lwy < -0.025) {
+        if (cur.rwy > 0.03) lines.push({ l: 'info', t: '左手在上右手在下，注意沉肩坐腕' });
+        else lines.push({ l: 'warn', t: '左手上举时右手没有配合，两手要有呼应' });
+    }
+
+    // 推理：双手同时前伸=可能是揽雀尾/按式
+    if (d.lwx > 0.015 && d.rwx > 0.015)
+        lines.push({ l: 'info', t: '双手同时前推，注意沉肩坠肘不能架起来，力从脚起传到腰再传到手，不要光用手推' });
+
+    // 推理：一手前推一手在后=搂膝拗步
+    if ((d.lwx > 0.02 && d.rwx < -0.01) || (d.rwx > 0.02 && d.lwx < -0.01))
+        lines.push({ l: 'info', t: '一手前一手后，注意后手不要夹在肋上，要拉开，前手肘不能伸直' });
+
+    // 推理：双手高度接近且在移动=云手
+    if (Math.abs(cur.lwy - cur.rwy) < 0.05 && (Math.abs(d.lwx) > 0.01 || Math.abs(d.rwx) > 0.01)) {
+        if (cur.lk < 165 && cur.rk < 165)
+            lines.push({ l: 'info', t: '两手在水平方向移动，像云手，注意腰为主宰手随腰转，不要光动手不转腰' });
+    }
+
+    // ==== 坐腕沉指 ====
+    // 推理：手腕角度（手腕-中指根-中指尖）太直=没坐腕
+    var lwa = 0, rwa = 0; // 需要额外算
+    // 简化：看手腕y和肘y的关系，如果手腕比肘高很多但手指没信息就跳过
 
     // ==== 如果没有任何明显变化=静止状态，做静态评估 ====
     if(lines.length === 0 && Math.abs(d.le) < 2 && Math.abs(d.re) < 2 && Math.abs(d.lk) < 2 && Math.abs(d.rk) < 2){
         // ... (静态评估逻辑) ...
+         if (cur.le < 100) lines.push({ l: 'warn', t: '左手肘夹得太紧（' + cur.le.toFixed(0) + '°），打开些，手臂要有圆撑感' });
+        if (cur.re < 100) lines.push({ l: 'warn', t: '右手肘夹得太紧（' + cur.re.toFixed(0) + '°），圆裆圆臂' });
+        if (cur.lk > 168 && cur.rk > 168) lines.push({ l: 'bad', t: '两腿都太直了，太极没有站直的时候，微微屈膝重心降低' });
+        if (cur.lk < 110) lines.push({ l: 'warn', t: '左膝弯曲过度（' + cur.lk.toFixed(0) + '°），检查是否跪膝' });
+        if (cur.rk < 110) lines.push({ l: 'warn', t: '右膝弯曲过度（' + cur.rk.toFixed(0) + '°），检查是否跪膝' });
+        if (cur.le > 100 && cur.re > 100 && cur.lk < 165 && cur.rk < 165 && cur.led > 0 && cur.red > 0)
+            lines.push({ l: 'good', t: '这个姿态不错，肩松肘沉，屈膝松胯，保持住' });
+        if (lines.length === 0)
+            lines.push({ l: 'info', t: '保持当前姿态，注意呼吸自然，气沉丹田' });
     }
     return lines;
 }
