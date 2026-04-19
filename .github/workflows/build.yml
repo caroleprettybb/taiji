@@ -1,0 +1,44 @@
+on:
+  push:
+    branches:
+      - main  # 如果你用的不是main分支，改成你实际的分支名（比如master）
+
+# 设置权限，允许把压好的文件推回仓库
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1.拉取你的代码
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      # 2. 安装 ffmpeg
+      - name: 安装 FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      # 3. 自动寻找视频并压缩 (关键步骤！)
+      - name: 压缩视频
+        run: |
+          # 找到仓库里所有的 mp4 文件，挨个压缩
+          for file in $(find . -name "*.mp4" -type f); do
+            echo "正在压缩: $file"
+            # 生成临时文件名
+            temp_file="${file%.mp4}_temp.mp4"
+            # 使用 ffmpeg 神级压缩：480p + 砍掉音频 + 极限压缩
+            ffmpeg -i "$file" -c:v libx264 -crf 28 -preset fast -vf scale=-2:480 -an "$temp_file" -y
+            # 用压缩好的小文件替换原来的大文件
+            mv "$temp_file" "$file"
+          done
+
+      # 4. 把压好的文件推回你的仓库
+      - name: 推送压缩后的文件
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git diff --staged --quiet || git commit -m "🤖 自动压缩视频"
+          git push
