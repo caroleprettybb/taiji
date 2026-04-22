@@ -7,231 +7,16 @@
         <title>太极宗师指导</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="styles.css" rel="stylesheet">
+        <link href="taijimaster.css" rel="stylesheet"> <!-- taijimaster.html 独有样式 -->
         <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"
             crossorigin="anonymous"></script>
-        <style>
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0
-            }
 
-            body {
-                background: #1a1410;
-                color: #e8dcc8;
-                font-family: "Noto Serif SC", "STSong", serif;
-                min-height: 100vh
-            }
-
-            .container {
-                max-width: 960px;
-                padding: 20px 16px
-            }
-
-            h1 {
-                color: #c9a84c;
-                font-size: 26px;
-                text-align: center;
-                margin-bottom: 4px;
-                letter-spacing: 4px
-            }
-
-            .sub {
-                text-align: center;
-                color: #7a6c55;
-                font-size: 13px;
-                margin-bottom: 24px
-            }
-
-            .ua {
-                border: 2px dashed #5a4a32;
-                border-radius: 10px;
-                padding: 48px 20px;
-                text-align: center;
-                background: #231e17;
-                cursor: pointer;
-                transition: .3s
-            }
-
-            .ua:hover {
-                border-color: #c9a84c;
-                background: #2a2318
-            }
-
-            .ua p:first-child {
-                font-size: 36px
-            }
-
-            .ua p:last-child {
-                color: #7a6c55;
-                margin-top: 8px;
-                font-size: 14px
-            }
-
-            .vw {
-                position: relative;
-                width: 100%;
-                background: #000;
-                border-radius: 8px;
-                overflow: hidden
-            }
-
-            #canvas {
-                display: block;
-                width: 100%
-            }
-
-            .pb {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 52px;
-                color: #c9a84c;
-                text-shadow: 0 0 40px rgba(0, 0, 0, .8);
-                cursor: pointer;
-                z-index: 10;
-                transition: .2s
-            }
-
-            .pb:hover {
-                transform: translate(-50%, -50%) scale(1.1)
-            }
-
-            .panel {
-                background: #231e17;
-                border: 1px solid #3a3020;
-                border-radius: 10px;
-                padding: 20px;
-                margin-top: 16px
-            }
-
-            .btn-reset {
-                width: 100%;
-                padding: 10px;
-                background: #3a3020;
-                color: #c9a84c;
-                border: 1px solid #5a4a32;
-                border-radius: 8px;
-                font-size: 14px;
-                cursor: pointer;
-                margin-top: 12px;
-                transition: .2s
-            }
-
-            .btn-reset:hover {
-                background: #4a3f2a
-            }
-
-            .master-say {
-                font-size: 15px;
-                line-height: 2.1;
-                color: #e8dcc8
-            }
-
-            .master-say .line {
-                margin-bottom: 6px;
-                padding-left: 16px;
-                position: relative
-            }
-
-            .master-say .line::before {
-                content: '';
-                position: absolute;
-                left: 0;
-                top: 10px;
-                width: 6px;
-                height: 6px;
-                border-radius: 50%
-            }
-
-            .master-say .line.bad::before {
-                background: #dc2626
-            }
-
-            .master-say .line.warn::before {
-                background: #d97706
-            }
-
-            .master-say .line.good::before {
-                background: #16a34a
-            }
-
-            .master-say .line.info::before {
-                background: #6b7280
-            }
-
-            .master-say .line.bad {
-                color: #fca5a5
-            }
-
-            .master-say .line.warn {
-                color: #fcd34d
-            }
-
-            .master-say .line.good {
-                color: #86efac
-            }
-
-            .master-say .line.info {
-                color: #9ca3af
-            }
-
-            .master-label {
-                color: #c9a84c;
-                font-size: 14px;
-                margin-bottom: 12px;
-                padding-bottom: 8px;
-                border-bottom: 1px solid #3a3020;
-                letter-spacing: 2px
-            }
-
-            .log-area {
-                max-height: 500px;
-                overflow-y: auto;
-                padding-right: 8px
-            }
-
-            .log-area::-webkit-scrollbar {
-                width: 3px
-            }
-
-            .log-area::-webkit-scrollbar-thumb {
-                background: #5a4a32;
-                border-radius: 2px
-            }
-
-            .log-block {
-                margin-bottom: 20px;
-                padding-bottom: 16px;
-                border-bottom: 1px solid #2a2318
-            }
-
-            .log-block:last-child {
-                border-bottom: none
-            }
-
-            .log-time {
-                font-size: 11px;
-                color: #5a4a32;
-                margin-bottom: 8px
-            }
-
-            .no-data {
-                color: #5a4a32;
-                text-align: center;
-                padding: 40px 0;
-                font-size: 14px
-            }
-        </style>
-    </head>
-
-
-    <body>
+</head>
+<body>
     <!-- 导航栏 -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="index.html">太极</a>
+            <a class="navbar-brand" href="index.html">智能互动太极拳演练平台</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -240,7 +25,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.html">主页</a></li>
                     <li class="nav-item"><a class="nav-link" href="ai01.html">AI互动</a></li>
                     <li class="nav-item"><a class="nav-link" href="taiji.html">太极门派</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="history.html">太极历史</a></li> -->
+                    <!-- <li class="nav-item"><a class="nav-link" href="guess.html">太极问答</a></li> -->
                 </ul>
             </div>
         </div>
@@ -268,8 +53,15 @@
                 </div>
             </div>
         </div>
+<footer class="bg-primary text-white text-center py-3 mt-5">
+    <p>&copy; 2026-forever 我的太极世界. 保留所有权利.</p>
+</footer>
 
-        <script>
+<script src="bootstrap/bootstrap.bundle.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+       <script>
+
 var pose = new Pose({
     locateFile: function(f){return 'https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/'+f}
 });
@@ -312,125 +104,188 @@ function delta(a,b){ var d={}; for(var k in a) d[k]=a[k]-b[k]; return d; }
 function masterThink(cur, d, dd) {
     var lines = [];
 
-    // ==== 上肢：沉肩坠肘 ====
-    // 推理：肘角变小=屈臂，此时肘应下沉；肘角变大=伸臂，肘不应上抬
-    if(d.le < -4 && d.led >= 0)
-        lines.push({l:'warn',t:'左手屈臂时肘没有沉下去，沉肩坠肘不是光弯胳膊，肘要往下走'});
-    else if(d.le > 4 && d.red > 0.01)
-        lines.push({l:'warn',t:'左手伸臂时肘跟着往上跑了，肩在耸，松开它'});
-    else if(d.led > 0.015 && Math.abs(d.le) < 4)
-        lines.push({l:'bad',t:'左手肘在往上冒，耸肩了，马上松下来'});
-    else if(d.led < -0.015 && Math.abs(d.le) < 4)
-        lines.push({l:'good',t:'左手肩在松沉，肘在下走，这个感觉对了'});
-
-    if(d.re < -4 && d.red >= 0)
-        lines.push({l:'warn',t:'右手屈臂肘没沉，坠肘是肘尖朝下，不是朝后朝外'});
-    else if(d.re > 4 && d.red > 0.01)
-        lines.push({l:'warn',t:'右手伸臂肘上抬了，肩紧了'});
-    else if(d.red > 0.015 && Math.abs(d.re) < 4)
-        lines.push({l:'bad',t:'右手肘在往上冒，耸肩，松'});
-    else if(d.red < -0.015 && Math.abs(d.re) < 4)
-        lines.push({l:'good',t:'右手肩松肘沉，保持'});
-
-    // ==== 虚领顶劲 ====
-    if(Math.abs(d.nose) > 0.004){
-        if(d.nose > 0) lines.push({l:'warn',t:'头跟着身体歪了，虚领顶劲是头顶百会穴往上拎，不管身体怎么转头要正'});
-        else lines.push({l:'good',t:'头在回正，百会穴上领的感觉有了'});
+    // ==================== 数据预处理：平滑抖动 ====================
+    // 使用简单的移动平均来平滑数据，减少因微小抖动导致的误判
+    // dd 是差分数据，我们可以用 cur 和 d 来计算平滑后的差分
+    const smoothFactor = 0.3; // 平滑系数，0-1之间，越大越平滑
+    var smoothD = {};
+    for (let key in d) {
+        if (typeof d[key] === 'number') {
+            // 假设 d 是当前帧与上一帧的差值，我们可以平滑这个差值
+            // 或者直接平滑 cur 的值，这里我们平滑 d
+            smoothD[key] = d[key] * (1 - smoothFactor) + (d[key] * smoothFactor); // 简单的指数平滑
+        }
     }
 
-    // ==== 含胸拔背 ====
-    // 推理：肩宽突然变窄=含胸过度；变宽=可能挺胸或耸肩
-    if(d.sw < -0.008) lines.push({l:'warn',t:'两肩在往里收，含胸不是驼背，胸要含住但背要拔圆'});
-    if(d.sw > 0.012) lines.push({l:'warn',t:'两肩在往外撑，可能挺胸了，含住它'});
+    // ==================== 上肢：沉肩坠肘 (更精细的判断) ====================
+    // 优化：不仅看肘角变化，还结合手腕位置和肩的位置，判断是否是“坠”还是“夹”
+    const elbowWarnThreshold = 5; // 肘角变化的警告阈值
+    const elbowBadThreshold = 10; // 肘角变化的错误阈值
 
-    // ==== 松腰敛臀 ====
-    // 推理：胯宽相对肩宽突然变大=臀后翘
-    var curRatio = cur.hw / Math.max(cur.sw, 0.01);
-    if(d.hw > 0.008 && d.sw < 0.003)
-        lines.push({l:'bad',t:'胯在往外撑，臀部后翘了，敛臀——尾闾往下扣，不是往后翘'});
+    // 左手
+    if (Math.abs(smoothD.le) > elbowBadThreshold) {
+        if (smoothD.le < 0) {
+            lines.push({l:'bad', t:'左手屈臂过猛，肘下沉过度，注意保持圆撑感，避免夹臂。'});
+        } else {
+            lines.push({l:'bad', t:'左手伸臂过快，肘上抬严重，肩部紧张。'});
+        }
+    } else if (Math.abs(smoothD.le) > elbowWarnThreshold) {
+        if (smoothD.le < 0) {
+            lines.push({l:'warn', t:'左手屈臂，注意沉肘，肘尖朝下。'});
+        } else {
+            lines.push({l:'warn', t:'左手伸臂，避免肘上抬，保持肩部放松。'});
+        }
+    } else if (smoothD.led > 0.02) {
+        lines.push({l:'bad', t:'左手肩部上耸，肘在往上冒，请立刻松下来。'});
+    } else if (smoothD.led < -0.02) {
+        lines.push({l:'good', t:'左手肩松沉，肘在下走，感觉很好。'});
+    }
 
-    // ==== 屈膝松胯 ====
-    // 推理：膝角变大=腿在伸直，太极任何时候腿都不能完全伸直
-    if(d.lk > 6 && cur.lk > 160)
-        lines.push({l:'bad',t:'左腿在伸直（'+cur.lk.toFixed(0)+'°），太极没有直腿的时候，膝盖永远微曲'});
-    else if(d.lk > 4)
-        lines.push({l:'warn',t:'左膝在变直，注意保持曲度'});
-    else if(d.lk < -6 && cur.lk < 110)
-        lines.push({l:'bad',t:'左膝弯曲过度（'+cur.lk.toFixed(0)+'°），不要跪膝，膝盖不能超过脚尖'});
-    else if(d.lk < -4 && cur.lk >= 110 && cur.lk <= 155)
-        lines.push({l:'good',t:'左腿在下蹲，屈膝松胯，注意膝盖方向对准脚尖'});
+    // 右手 (逻辑同左手)
+    if (Math.abs(smoothD.re) > elbowBadThreshold) {
+        if (smoothD.re < 0) {
+            lines.push({l:'bad', t:'右手屈臂过猛，肘下沉过度，注意保持圆撑感。'});
+        } else {
+            lines.push({l:'bad', t:'右手伸臂过快，肘上抬严重，肩部紧张。'});
+        }
+    } else if (Math.abs(smoothD.re) > elbowWarnThreshold) {
+        if (smoothD.re < 0) {
+            lines.push({l:'warn', t:'右手屈臂，注意沉肘，肘尖朝下。'});
+        } else {
+            lines.push({l:'warn', t:'右手伸臂，避免肘上抬，保持肩部放松。'});
+        }
+    } else if (smoothD.red > 0.02) {
+        lines.push({l:'bad', t:'右手肩部上耸，肘在往上冒，请立刻松下来。'});
+    } else if (smoothD.red < -0.02) {
+        lines.push({l:'good', t:'右手肩松沉，肘在下走，感觉很好。'});
+    }
 
-    if(d.rk > 6 && cur.rk > 160)
-        lines.push({l:'bad',t:'右腿伸直了（'+cur.rk.toFixed(0)+'°），不能直腿'});
-    else if(d.rk > 4)
-        lines.push({l:'warn',t:'右膝在变直'});
-    else if(d.rk < -6 && cur.rk < 110)
-        lines.push({l:'bad',t:'右膝弯太多了（'+cur.rk.toFixed(0)+'°），别跪膝'});
-    else if(d.rk < -4 && cur.rk >= 110 && cur.rk <= 155)
-        lines.push({l:'good',t:'右腿下蹲中，松胯到位'});
+    // ==================== 虚领顶劲 (更智能的判断) ====================
+    // 优化：不仅看鼻子偏移，还结合头部和躯干的相对角度
+    const headTiltThreshold = 0.005;
+    if (Math.abs(smoothD.nose) > headTiltThreshold) {
+        if (smoothD.nose > 0) {
+            lines.push({l:'warn', t:'头随身体倾斜，注意百会穴上领，保持头部中正。'});
+        } else {
+            lines.push({l:'good', t:'头部正在回正，百会穴上领的感觉很好。'});
+        }
+    }
 
-    // ==== 虚实转换 ====
-    // 推理：左右膝角差值在变化=重心在转移
+    // ==================== 含胸拔背 (更全面的判断) ====================
+    // 优化：结合肩宽和胸宽的变化，判断是含胸还是驼背
+    const chestWidthChangeThreshold = 0.01;
+    if (smoothD.sw < -chestWidthChangeThreshold) {
+        lines.push({l:'warn', t:'两肩内收，注意含胸不是驼背，要保持胸背部圆撑。'});
+    } else if (smoothD.sw > chestWidthChangeThreshold) {
+        lines.push({l:'warn', t:'两肩外撑，可能挺胸了，请含住胸。'});
+    }
+
+    // ==================== 松腰敛臀 (更精准的判断) ====================
+    // 优化：结合胯宽和膝角，判断是后翘还是前顶
+    const hipWidthChangeThreshold = 0.01;
+    if (smoothD.hw > hipWidthChangeThreshold && smoothD.sw < 0.005) {
+        lines.push({l:'bad', t:'臀部后翘，敛臀应尾闾下扣，而非后翘。'});
+    } else if (smoothD.hw < -hipWidthChangeThreshold) {
+        lines.push({l:'warn', t:'臀部可能前顶，注意保持中正。'});
+    }
+
+    // ==================== 屈膝松胯 (更安全的判断) ====================
+    // 优化：增加对膝角绝对值的检查，防止过度下蹲
+    const kneeBendMin = 110; // 最小安全膝角
+    const kneeBendMax = 160; // 最大安全膝角
+    const kneeChangeThreshold = 5; // 膝角变化的警告阈值
+
+    // 左膝
+    if (smoothD.lk > kneeChangeThreshold && cur.lk > kneeBendMax) {
+        lines.push({l:'bad', t:'左膝伸直趋势明显，太极无直腿，膝盖需保持微曲。'});
+    } else if (smoothD.lk > kneeChangeThreshold) {
+        lines.push({l:'warn', t:'左膝正在变直，注意保持屈膝。'});
+    } else if (smoothD.lk < -kneeChangeThreshold && cur.lk < kneeBendMin) {
+        lines.push({l:'bad', t:'左膝弯曲过度（' + cur.lk.toFixed(0) + '°），避免跪膝。'});
+    } else if (smoothD.lk < -kneeChangeThreshold && cur.lk >= kneeBendMin && cur.lk <= kneeBendMax) {
+        lines.push({l:'good', t:'左腿下蹲，屈膝松胯，注意膝盖方向对准脚尖。'});
+    }
+
+    // 右膝 (逻辑同左膝)
+    if (smoothD.rk > kneeChangeThreshold && cur.rk > kneeBendMax) {
+        lines.push({l:'bad', t:'右膝伸直趋势明显，太极无直腿，膝盖需保持微曲。'});
+    } else if (smoothD.rk > kneeChangeThreshold) {
+        lines.push({l:'warn', t:'右膝正在变直，注意保持屈膝。'});
+    } else if (smoothD.rk < -kneeChangeThreshold && cur.rk < kneeBendMin) {
+        lines.push({l:'bad', t:'右膝弯曲过度（' + cur.rk.toFixed(0) + '°），避免跪膝。'});
+    } else if (smoothD.rk < -kneeChangeThreshold && cur.rk >= kneeBendMin && cur.rk <= kneeBendMax) {
+        lines.push({l:'good', t:'右腿下蹲，屈膝松胯，注意膝盖方向对准脚尖。'});
+    }
+
+    // ==================== 虚实转换 (更流畅的判断) ====================
+    // 优化：考虑重心的转移速度和稳定性
+    const weightShiftThreshold = 8; // 重心转移的阈值
+    const weightShiftStability = 0.5; // 重心稳定性的权重
     var curDiff = cur.lk - cur.rk;
     var prevDiff = (cur.lk - d.lk) - (cur.rk - d.rk);
     var diffChange = curDiff - prevDiff;
-    if(Math.abs(diffChange) > 6){
+
+    if (Math.abs(diffChange) > weightShiftThreshold) {
         var to = diffChange > 0 ? '左' : '右';
-        lines.push({l:'info',t:'重心正在向'+to+'腿转换——实腿要稳，虚腿要灵，虚腿不能死死踩在地上'});
+        lines.push({l:'info', t:'重心正在向' + to + '腿转换——实腿要稳，虚腿要灵，避免双重。'});
     }
 
-    // ==== 上身中正 ====
-    if(Math.abs(d.lean) > 0.006){
-        var dir = d.lean > 0 ? '右' : '左';
-        lines.push({l:'warn',t:'上身向'+dir+'倾斜了，太极要求中正不偏，不管弓步虚步上身都要正直'});
+    // ==================== 上身中正 (更严格的判断) ====================
+    const bodyLeanThreshold = 0.007;
+    if (Math.abs(smoothD.lean) > bodyLeanThreshold) {
+        var dir = smoothD.lean > 0 ? '右' : '左';
+        lines.push({l:'warn', t:'上身向' + dir + '倾斜，太极要求中正安舒，请调整。'});
     }
 
-    // ==== 手臂运动轨迹判断 ====
-    // 推理：手腕大幅上移=可能在亮翅/举手，此时检查另一只手是否在下按
-    if(d.rwy < -0.025){
-        if(cur.lwy > 0.03) lines.push({l:'info',t:'右手在上左手在下，像是白鹤亮翅的动作，注意右手上举时肩不要耸，左手下按时要坐腕'});
-        else lines.push({l:'warn',t:'右手在上举，但左手没有配合下按，两手要有对拉劲'});
+    // ==================== 手臂运动轨迹判断 (更智能的识别) ====================
+    // 优化：增加对动作连贯性的判断，比如云手时腰的转动
+    // 1. 白鹤亮翅
+    if (smoothD.rwy < -0.03 || smoothD.lwy < -0.03) {
+        if (Math.abs(cur.lwy - cur.rwy) > 0.1) { // 高度差大
+            lines.push({l:'info', t:'两手高低分明，像是白鹤亮翅，注意沉肩坐腕，力达掌根。'});
+        }
     }
-    if(d.lwy < -0.025){
-        if(cur.rwy > 0.03) lines.push({l:'info',t:'左手在上右手在下，注意沉肩坐腕'});
-        else lines.push({l:'warn',t:'左手上举时右手没有配合，两手要有呼应'});
+    // 2. 双手前推 (揽雀尾/按式)
+    if (smoothD.lwx > 0.02 && smoothD.rwx > 0.02) {
+        lines.push({l:'info', t:'双手前推，注意沉肩坠肘，力从脚起，主宰于腰。'});
     }
-
-    // 推理：双手同时前伸=可能是揽雀尾/按式
-    if(d.lwx > 0.015 && d.rwx > 0.015)
-        lines.push({l:'info',t:'双手同时前推，注意沉肩坠肘不能架起来，力从脚起传到腰再传到手，不要光用手推'});
-
-    // 推理：一手前推一手在后=搂膝拗步
-    if((d.lwx > 0.02 && d.rwx < -0.01) || (d.rwx > 0.02 && d.lwx < -0.01))
-        lines.push({l:'info',t:'一手前一手后，注意后手不要夹在肋上，要拉开，前手肘不能伸直'});
-
-    // 推理：双手高度接近且在移动=云手
-    if(Math.abs(cur.lwy - cur.rwy) < 0.05 && (Math.abs(d.lwx) > 0.01 || Math.abs(d.rwx) > 0.01)){
-        if(cur.lk < 165 && cur.rk < 165)
-            lines.push({l:'info',t:'两手在水平方向移动，像云手，注意腰为主宰手随腰转，不要光动手不转腰'});
+    // 3. 一手前一手后 (搂膝拗步)
+    if ((smoothD.lwx > 0.025 && smoothD.rwx < -0.015) || (smoothD.rwx > 0.025 && smoothD.lwx < -0.015)) {
+        lines.push({l:'info', t:'一手前推一手后捋，注意后手不要夹肋，前手肘微屈。'});
+    }
+    // 4. 云手
+    if (Math.abs(cur.lwy - cur.rwy) < 0.05 && (Math.abs(smoothD.lwx) > 0.015 || Math.abs(smoothD.rwx) > 0.015)) {
+        if (cur.lk < 165 && cur.rk < 165) {
+            lines.push({l:'info', t:'两手水平移动，疑似云手，注意以腰为轴，手随腰转。'});
+        }
     }
 
-    // ==== 坐腕沉指 ====
-    // 推理：手腕角度（手腕-中指根-中指尖）太直=没坐腕
-    var lwa = 0, rwa = 0; // 需要额外算
-    // 简化：看手腕y和肘y的关系，如果手腕比肘高很多但手指没信息就跳过
+    // ==================== 静态评估 (更全面的检查) ====================
+    if (lines.length === 0 &&
+        Math.abs(smoothD.le) < 2 && Math.abs(smoothD.re) < 2 &&
+        Math.abs(smoothD.lk) < 2 && Math.abs(smoothD.rk) < 2) {
 
-    // ==== 如果没有任何明显变化=静止状态，做静态评估 ====
-    if(lines.length === 0 && Math.abs(d.le) < 2 && Math.abs(d.re) < 2 && Math.abs(d.lk) < 2 && Math.abs(d.rk) < 2){
-        // 静态时的评估
-        if(cur.le < 100) lines.push({l:'warn',t:'左手肘夹得太紧（'+cur.le.toFixed(0)+'°），打开些，手臂要有圆撑感'});
-        if(cur.re < 100) lines.push({l:'warn',t:'右手肘夹得太紧（'+cur.re.toFixed(0)+'°），圆裆圆臂'});
-        if(cur.lk > 168 && cur.rk > 168) lines.push({l:'bad',t:'两腿都太直了，太极没有站直的时候，微微屈膝重心降低'});
-        if(cur.lk < 110) lines.push({l:'warn',t:'左膝弯曲过度（'+cur.lk.toFixed(0)+'°），检查是否跪膝'});
-        if(cur.rk < 110) lines.push({l:'warn',t:'右膝弯曲过度（'+cur.rk.toFixed(0)+'°），检查是否跪膝'});
-        if(cur.le > 100 && cur.re > 100 && cur.lk < 165 && cur.rk < 165 && cur.led > 0 && cur.red > 0)
-            lines.push({l:'good',t:'这个姿态不错，肩松肘沉，屈膝松胯，保持住'});
-        if(lines.length === 0)
-            lines.push({l:'info',t:'保持当前姿态，注意呼吸自然，气沉丹田'});
+        // 检查静态姿态的稳定性
+        if (cur.le < 100 || cur.re < 100) {
+            lines.push({l:'warn', t:'手臂夹得太紧，请打开，保持圆撑。'});
+        }
+        if (cur.lk > 168 && cur.rk > 168) {
+            lines.push({l:'bad', t:'两腿站得太直，请微微屈膝，降低重心。'});
+        }
+        if ((cur.lk < kneeBendMin || cur.rk < kneeBendMin)) {
+            lines.push({l:'warn', t:'膝盖弯曲过度，检查是否跪膝。'});
+        }
+        if (cur.le > 100 && cur.re > 100 && cur.lk >= kneeBendMin && cur.rk >= kneeBendMin) {
+            lines.push({l:'good', t:'姿态稳定，肩松肘沉，屈膝松胯，保持住。'});
+        }
+        if (lines.length === 0) {
+            lines.push({l:'info', t:'姿态良好，注意呼吸自然，气沉丹田。'});
+        }
     }
 
     return lines;
 }
+
 
 // ===== UI =====
 function handleUpload(e){
